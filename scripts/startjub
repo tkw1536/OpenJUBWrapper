@@ -26,7 +26,7 @@ then
   exit 1
 fi
 
-nohup (cd data/repo && node server.js) >$LOGFILE 2>&1&
+nohup scripts/runjub >$LOGFILE 2>&1&
 PID=$!
 echo $PID > $PIDFILE
 echo "Started $PID. "
