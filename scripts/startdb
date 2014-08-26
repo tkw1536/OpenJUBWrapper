@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Go to the root directory.
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
+cd $DIR
+
+# PIDFILE
+PIDFILE="data/dbpid"
+LOGFILE="data/dblog"
+
+# Colors
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+NORMAL=$(tput sgr0)
+
+# Columns
+col=80
+
+echo -n "Starting OpenJUB Database: "
+
+if [ -f $PIDFILE ]
+then
+  echo "Already Running. "
+  printf '%s%*s%s' "$RED" $col "[FAIL]" "$NORMAL"
+  echo ""
+  exit 1
+fi
+
+mkdir -p data/cache
+echo "" > $LOGFILE
+nohup mongod --dbpath "$DIR/data/cache" --bind_ip "127.0.0.1" --port 12712 >$LOGFILE 2>&1&
+PID=$!
+echo $PID > $PIDFILE
+echo "Started $PID. "
+
+printf '%s%*s%s' "$GREEN" $col "[OK]" "$NORMAL"
+echo ""

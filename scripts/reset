@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Go to the root directory.
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
+cd $DIR
+
+echo "Stopping services..."
+scripts/stop
+
+echo "Removing data ... "
+rm -rf data/cache
+rm -rf data/repo
+rm -f data/dblog
+rm -f data/jublog

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Go to the root directory.
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
+cd $DIR
+
+# Delete the cache
+echo "Clearing locally installed version. "
+scripts/reset
+
+# Clone OpenJUB
+echo "Grabbing OpenJUB-API"
+git clone https://github.com/OpenJUB/openjub-api data/repo
+
+# Start Database
+scripts/startdb
+echo -n "Database started for the first time, waiting 30s for init ..."
+sleep 30
+echo "Done. "
+
+# Installing OpenJUB-API
+echo "Installing OpenJUB-API"
+pushd data/repo
+    npm install -g grunt grunt-cli express bower
+    npm install
+    bower install
+    cp ../../jub_config.json settings.json
+    ./tasks/phoneRoomMapping
+    ./tasks/sync
+popd
+
+# Stop the database
+scripts/stopdb
