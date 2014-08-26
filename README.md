@@ -15,8 +15,8 @@ scripts/install
 
  1. To start: Run "scripts/start"
  2. To stop: Run "scripts/stop"
- 3. To sync: Run "scripts/sync"
- 4. To create a new token: Run "scripts/token"
+ 3. To sync: Run "scripts/sync", we need to be started for this.
+ 4. To create a new token: Run "scripts/token", we need to be started for this. 
 
 * The actual installation of the openjub-api can be found under data/repo.
 * Logs can be found in "data/jublog" and "data/dblog".
